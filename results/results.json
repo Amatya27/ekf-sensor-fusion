@@ -1,0 +1,50 @@
+{
+  "runs": 50,
+  "duration_s": 120.0,
+  "setups": {
+    "dead_reckoning": {
+      "pos_rmse_m": 30.243080693127272,
+      "final_pos_err_m": 62.66160586008846,
+      "max_pos_err_m": 62.66160586008846,
+      "heading_rmse_deg": 81.08410433485314,
+      "mean_nees": 495.5157358715309,
+      "outliers_rejected_total": 0
+    },
+    "odom+gyro": {
+      "pos_rmse_m": 6.299872829978977,
+      "final_pos_err_m": 13.743737815883685,
+      "max_pos_err_m": 13.743737815883685,
+      "heading_rmse_deg": 15.522980668988119,
+      "mean_nees": 13.11920015545722,
+      "outliers_rejected_total": 0
+    },
+    "odom+gyro+gps (no gating)": {
+      "pos_rmse_m": 0.7303111055490092,
+      "final_pos_err_m": 0.7372501030809631,
+      "max_pos_err_m": 1.7189031158266876,
+      "heading_rmse_deg": 5.389865151167422,
+      "mean_nees": 8.505336197183782,
+      "outliers_rejected_total": 0,
+      "update_median_us": 28.276499961066293
+    },
+    "odom+gyro+gps": {
+      "pos_rmse_m": 0.6188728610829554,
+      "final_pos_err_m": 0.7113066610587445,
+      "max_pos_err_m": 1.28019214258506,
+      "heading_rmse_deg": 5.409631551717926,
+      "mean_nees": 6.838073379519963,
+      "outliers_rejected_total": 709,
+      "update_median_us": 28.16250002979359
+    },
+    "odom+gyro+gps+lidar": {
+      "pos_rmse_m": 0.3012109456924367,
+      "final_pos_err_m": 0.5378967779399652,
+      "max_pos_err_m": 0.8897423307429801,
+      "heading_rmse_deg": 2.2778209165987255,
+      "mean_nees": 3.6564680753662238,
+      "outliers_rejected_total": 944,
+      "update_median_us": 32.59149991663435
+    }
+  },
+  "note": "NEES for a consistent 3-state filter averages about 3."
+}
