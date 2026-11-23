@@ -1,0 +1,47 @@
+{
+  "seeds_per_cell": 30,
+  "factors": {
+    "gps_outlier_rate": [
+      0.0,
+      0.05,
+      0.15
+    ],
+    "gating": [
+      false,
+      true
+    ]
+  },
+  "by_outlier_rate": {
+    "0.0": {
+      "rmse_no_gate_m": 0.5634181844149214,
+      "rmse_gate_m": 0.581983891807651,
+      "mean_improvement_m": -0.018565707392729322,
+      "improvement_pct": -3.2951913705108367,
+      "t_stat": -4.258400047634384,
+      "p_value": 0.00019754192436076658,
+      "seeds_where_gate_helped": 7
+    },
+    "0.05": {
+      "rmse_no_gate_m": 0.6608388595960913,
+      "rmse_gate_m": 0.5680590952564903,
+      "mean_improvement_m": 0.09277976433960085,
+      "improvement_pct": 14.039695606930318,
+      "t_stat": 5.144685969899408,
+      "p_value": 1.696625020498404e-05,
+      "seeds_where_gate_helped": 24
+    },
+    "0.15": {
+      "rmse_no_gate_m": 0.8908607965992889,
+      "rmse_gate_m": 0.5966147793808655,
+      "mean_improvement_m": 0.29424601721842364,
+      "improvement_pct": 33.02940463220048,
+      "t_stat": 11.212296296983304,
+      "p_value": 4.628279722435177e-12,
+      "seeds_where_gate_helped": 29
+    }
+  },
+  "interaction_anova": {
+    "F": 73.01378307877762,
+    "p_value": 2.4370810475600766e-19
+  }
+}

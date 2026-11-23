@@ -46,3 +46,9 @@ def test_covariance_stays_symmetric_positive_definite():
             for i, r, b in run.lidar[k]:
                 f.update_landmark(run.landmarks[i], r, b)
     assert np.allclose(f.P, f.P.T) and np.all(np.linalg.eigvalsh(f.P) > 0)
+
+
+def test_gating_helps_when_gps_has_outliers():
+    from fusion.doe import main
+    r = main(seeds=4, out="/tmp/ekf_doe_test")["by_outlier_rate"]
+    assert r["0.15"]["rmse_gate_m"] < r["0.15"]["rmse_no_gate_m"]
