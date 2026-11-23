@@ -37,6 +37,18 @@ What I took from it:
 - NEES checks whether the filter's own uncertainty is honest. For 3 states it should average around 3. The full filter sits at 3.7, so it's close to consistent. The setups without absolute measurements are overconfident because the sensor biases aren't in the model.
 - A measurement update takes about 30 microseconds (median), so this is nowhere near a bottleneck at these rates.
 
+### Is the gate worth it? (designed experiment)
+
+I wanted to know whether the 0.73 -> 0.62 m gain from gating was real and when it holds, so `fusion/doe.py` runs a 3 x 2 factorial: GPS outlier rate (0%, 5%, 15%) x gating (off/on), 30 seeds per cell. Both gate settings see the same simulated data, so I used a paired t-test.
+
+| Outlier rate | No gate | Gate | Change | p |
+|---|---|---|---|---|
+| 0% | 0.56 m | 0.58 m | 3% worse | 2e-4 |
+| 5% | 0.66 m | 0.57 m | 14% better | 2e-5 |
+| 15% | 0.89 m | 0.60 m | 33% better | 5e-12 |
+
+With clean GPS the gate drops a few good fixes and costs a little. As outliers increase it helps more and more, and the gated error stays flat around 0.6 m. `docs/FMEA.md` goes through the other ways the estimate can fail and which of them are handled.
+
 ![trajectory](results/trajectory.png)
 ![error over time](results/error.png)
 
@@ -45,7 +57,8 @@ What I took from it:
 ```bash
 pip install -r requirements.txt
 python -m fusion.evaluate --runs 50   # prints the table, writes results/ and plots
-python -m pytest -q                    # 5 tests
+python -m fusion.doe --seeds 30        # gating experiment, writes results/doe.json
+python -m pytest -q                    # 6 tests
 ```
 
 The tests check that the landmark Jacobian matches a numerical derivative, that fusion beats dead reckoning by a wide margin, that the full filter stays consistent (NEES band), that the gate drops a far-off GPS fix, and that the covariance stays symmetric positive definite.
@@ -64,5 +77,7 @@ Next steps I'd like to try: estimate the gyro bias as a state, run it on a publi
 fusion/sim.py       robot + sensor simulator
 fusion/ekf.py       the filter (predict, GPS update, landmark update, gating)
 fusion/evaluate.py  Monte Carlo comparison, results.json, plots
+fusion/doe.py       gating experiment (factorial design, paired t-tests)
+docs/FMEA.md        failure modes and how each is handled
 tests/test_ekf.py   correctness and consistency tests
 ```
