@@ -27,3 +27,19 @@ Row 1 was the one I could test properly. `fusion/doe.py` runs GPS outlier rate (
 | 15% | 0.89 m | 0.60 m | 33% better | 5e-12 |
 
 So the gate isn't free. With clean GPS it throws away a few good fixes and costs a little accuracy (row 6). Once outliers show up, it pays for itself, and the gain grows with the outlier rate (one-way ANOVA on the per-seed gains, p < 1e-18). With gating on, the error barely moves no matter how bad the GPS gets.
+
+## Test plan
+
+Each risk I could act on has a check that runs with `pytest` or the experiment script. The pass condition is what the test actually asserts.
+
+| Risk (row) | Check | Pass condition |
+|---|---|---|
+| 1 GPS multipath | `test_gate_rejects_far_gps_fix` | a fix 14 m off is rejected, a 0.6 m one is accepted |
+| 1 GPS multipath | `test_gating_helps_when_gps_has_outliers` | at 15% outliers, gated RMSE < ungated RMSE |
+| 2, 3 biases | `test_fusion_beats_dead_reckoning` | fused RMSE under 20% of dead reckoning RMSE |
+| 4 overconfidence | `test_full_filter_is_consistent` | mean NEES over 5 runs between 1 and 6 |
+| 5 covariance | `test_covariance_stays_symmetric_positive_definite` | P symmetric, all eigenvalues > 0 after 30 s of updates |
+| landmark update math | `test_landmark_jacobian_matches_numeric` | analytic Jacobian within 1e-5 of a numeric one |
+| 6 good fixes dropped | `python -m fusion.doe` | measured, not asserted: 3% cost at 0% outliers |
+
+Rows 8 and 9 have no check yet because the simulator doesn't produce those failures. Adding them to `sim.py` comes before any fix.
