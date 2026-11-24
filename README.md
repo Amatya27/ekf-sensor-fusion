@@ -1,4 +1,17 @@
-# EKF Sensor Fusion for a Ground Robot
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="media/banner-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="media/banner-light.svg">
+    <img src="media/banner-light.svg" width="100%" alt="EKF Sensor Fusion for a Ground Robot">
+  </picture>
+</p>
+<p align="center">
+  <a href="https://github.com/Amatya27/ekf-sensor-fusion/actions/workflows/tests.yml"><img src="https://github.com/Amatya27/ekf-sensor-fusion/actions/workflows/tests.yml/badge.svg" alt="tests"></a>
+  <img src="https://img.shields.io/badge/Python-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/NumPy-013243?style=flat-square&logo=numpy&logoColor=white" alt="NumPy">
+  <img src="https://img.shields.io/badge/SciPy-8CAAE6?style=flat-square&logo=scipy&logoColor=white" alt="SciPy">
+  <img src="https://img.shields.io/badge/pytest-0A9EDC?style=flat-square&logo=pytest&logoColor=white" alt="pytest">
+</p>
 
 I built this to work through state estimation end to end: how a robot keeps track of where it is when every sensor it has is wrong in a different way.
 
@@ -19,6 +32,11 @@ An Extended Kalman Filter (EKF) tracks the pose `[x, y, theta]`:
 - Covariance updates use the Joseph form so the matrix stays symmetric and positive definite over long runs.
 
 ## Results
+
+<p align="center">
+  <img src="media/ekf_run.gif" width="640" alt="Seed 0 run: wheel odometry drifts tens of meters while the EKF stays on the true path">
+</p>
+<p align="center"><sub>Seed 0 from my simulator, generated with the code in this repo. Odometry alone (red dashed) is about 63 m off by the end; the full EKF (teal) is about 1.3 m off.</sub></p>
 
 50 Monte Carlo runs, 120 s each, same sensor noise, different random seeds (`results/results.json`):
 
